@@ -3,47 +3,18 @@ import Aux from '../../components/hoc/aux/Aux';
 import classes from './Productstyle.css';
 // import PropTypes from 'prop-types';
 import ProductItrate from './ProductItrate';
-
+import * as actionsTypes from '../../store/actions/Actions';
+import {connect} from 'react-redux';
 
 class ProductList extends Component {
-
-    state = {
-        products: [
-            { id: 1, name: "LV side bag", priceWas: 45.00, priceIs: 32.50, rating: 4, imgUrl: "./img/product01.jpg" },
-            { id: 2, name: "DW watch", priceWas: 45.00, priceIs: 3.50, rating: 4, imgUrl: "./img/product02.jpg" },
-            { id: 3, name: "LP wallet", priceWas: 45.00, priceIs: 2.50, rating: 4, imgUrl: "./img/product03.jpg" },
-            { id: 4, name: "Puma shoes", priceWas: 45.00, priceIs: 12.50, rating: 4, imgUrl: "./img/product04.jpg" },
-            { id: 5, name: "Boots", priceWas: 145.00, priceIs: 132.50, rating: 4, imgUrl: "./img/product05.jpg" },
-            { id: 6, name: "DW watch", priceWas: 45.00, priceIs: 3.50, rating: 4, imgUrl: "./img/product06.jpg" },
-            { id: 7, name: "LP wallet", priceWas: 45.00, priceIs: 2.50, rating: 4, imgUrl: "./img/product07.jpg" },
-            { id: 8, name: "Puma shoes", priceWas: 45.00, priceIs: 12.50, rating: 4, imgUrl: "./img/product08.jpg" }
-        ],
-        cart: []
-    }
-
-
-    onProductCliked = (item) => {
-        let cart = [...this.state.cart]
-        cart.push(item);
-        this.setState({
-            cart: cart
-        }, function () { console.log(this.state.cart, "cart"); })
-    }
-
     render() {
-        var showAllProduct = null;
-        showAllProduct = this.state.products;
-
         return (
             <Aux>
-                {console.log("this.state.prod", showAllProduct)}
+                {console.log("this.state.prod", this.props.products)}
                 <div id={classes.store}>
                     {/* {this.props.name} */}
-
                     <div className="row" style={{ display: "flex", justifyContent: "center" }}>
-
-                        <ProductItrate products={showAllProduct} getClicked={this.onProductCliked} />
-
+                        <ProductItrate products={this.props.products}  cartItems={this.props.cartItems}/>
                     </div>
                 </div>
             </Aux>
@@ -55,4 +26,20 @@ class ProductList extends Component {
 //     name:PropTypes.string.isRequired
 // };
 
-export default ProductList;
+const mapStateToProps = state => {
+    return {
+        totalItems: state.totalItems,
+        products:state.products,
+        cartItems:state.cartItems,
+    };
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        onIncrementCounter: () => dispatch({type: actionsTypes.ADD_TO_CART}),
+        // onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
+        // onAddCounter: () => dispatch({type: 'ADD_5' ,val:5}),
+        // onSubCounter: () => dispatch({type: 'SUB_5' , val :5}),
+        // onResetCounter: () => dispatch({type: 'RESET' , val :5})
+    };
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ProductList);

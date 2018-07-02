@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import classes from './Productstyle.css';
-// import PropTypes from 'prop-types';
 import Aux from '../../components/hoc/aux/Aux';
-import ModalReact from '../../components/modal/ModalReact';
+// import ModalReact from '../../components/modal/ModalReact';
+import * as actionsTypes from '../../store/actions/Actions';
+import {connect} from 'react-redux';
 
 class ProductItrate extends Component {
     state={
 show :false
     };
-    
-    quickView=()=>{
-        this.setState({
-show:!this.state.show
-        },function(){console.log("this.state.show",this.state.show);
-        })
-    }    
+    onClickAddtoCart=(product)=>{
+        let found = this.props.cartItems.find(function (e) {
+            return e.id === product.id;
+        });
+        if(!found)
+        this.props.addToCart(product);
+        else
+        this.props.updateTOCart(product.id);
+    }  
     
     render() {
         let products = null;
@@ -24,8 +27,8 @@ show:!this.state.show
             <Aux>
 
 
-<ModalReact show={this.state.show} ><div>
-asdasdasd</div></ModalReact>
+{/* <ModalReact show={this.state.show} ><div>
+asdasdasd</div></ModalReact> */}
 
 
 
@@ -44,7 +47,6 @@ asdasdasd</div></ModalReact>
                                 </div>
                                 <div className={classes.productbody}>
                                     <h4 className={classes.productprice}>{product.priceIs} <del className={classes.productoldprice}>{product.priceWas}</del></h4>
-
                                     <div className={classes.productrating}>
                                         <i className="fa fa-star"></i>
                                         <i className="fa fa-star"></i>
@@ -56,29 +58,32 @@ asdasdasd</div></ModalReact>
                                     <div className={classes.productbtns}>
                                         <button className={classes.mainbtn + " " + classes.iconbtn}><i className="fa fa-heart"></i></button>
                                         <button className={classes.mainbtn + " " + classes.iconbtn}><i className="fa fa-exchange"></i></button>
-                                        <button className={classes.primarybtn}  onClick={()=>this.props.getClicked(product)}><i className="fa fa-shopping-cart"></i> Add to Cart</button>
-
-
-               {/* <input type="text" name="nameToSearch" placeholder="Search Git Users" onChange={this.props.onChange}  */}
-            {/* //    ref={(inpfocus)=>{this.inputElement=inpfocus}}
-            //    />
-            //     <button onClick={this.props.onClick}>show data</button>
-            // </Fragment>
-    */}
-
-
-
-
+                                        <button className={classes.primarybtn}  onClick={()=>this.onClickAddtoCart(product)}>
+                                        <i className="fa fa-shopping-cart"></i> Add to Cart</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 )}
-
-
             </Aux>
         );
     }
 }
-export default ProductItrate;
+
+const mapStateToProps = state => {
+    return {
+        totalItems: state.totalItems,
+        cartItems:state.cartItems,
+        products:state.products,
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addToCart: (product) => dispatch({type: actionsTypes.ADD_TO_CART,payload:product}),
+        updateTOCart: (id) => dispatch({type: actionsTypes.UPDATE_TO_CART,payload:id}),
+    };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(ProductItrate);
