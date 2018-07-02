@@ -16,7 +16,6 @@ class Header extends Component {
                                         <img src="./img/logo.png" alt="" />
                                     </Link>
                                 </div>
-
                                 <div className={classes.headersearch}>
                                     <form>
                                         <input className={classes.input + " " + classes.searchinput} type="text" placeholder="Enter your keyword" />
@@ -76,8 +75,6 @@ const mapStateToProps = state => {
     return {
         totalItems: state.totalItems
     };
-
 }
-
 
 export default connect(mapStateToProps)(Header);

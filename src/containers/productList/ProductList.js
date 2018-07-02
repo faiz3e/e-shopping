@@ -22,10 +22,6 @@ class ProductList extends Component {
     }
 }
 
-// ProductList.propTypes={
-//     name:PropTypes.string.isRequired
-// };
-
 const mapStateToProps = state => {
     return {
         totalItems: state.totalItems,
@@ -36,10 +32,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onIncrementCounter: () => dispatch({type: actionsTypes.ADD_TO_CART}),
-        // onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
-        // onAddCounter: () => dispatch({type: 'ADD_5' ,val:5}),
-        // onSubCounter: () => dispatch({type: 'SUB_5' , val :5}),
-        // onResetCounter: () => dispatch({type: 'RESET' , val :5})
+
     };
 }
 export default connect(mapStateToProps,mapDispatchToProps)(ProductList);

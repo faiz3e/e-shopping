@@ -7,34 +7,22 @@ import {connect} from 'react-redux';
 import * as actionsTypes from '../../store/actions/Actions';
 import TableFooter from './TableFooter';
 class Cart extends Component {
-state = {
-// cart:this.props.cartItems,
-products: [
-	{ id: 1, name: "LV side bag", priceWas: 45.00, priceIs: 32.50, rating: 4, imgUrl: "./img/product01.jpg", quan: 1 },
-	{ id: 2, name: "DW watch", priceWas: 45.00, priceIs: 3.50, rating: 4, imgUrl: "./img/product02.jpg", quan: 4 },
-	{ id: 3, name: "LP wallet", priceWas: 45.00, priceIs: 2.50, rating: 4, imgUrl: "./img/product03.jpg", quan: 2 },
-	{ id: 4, name: "Puma shoes", priceWas: 45.00, priceIs: 12.50, rating: 4, imgUrl: "./img/product04.jpg", quan: 1 }
-],
-selecteditem: null,
-}
+
 
 handleChange = (e) => {
 }
 
 addProduct = (e) => {
-	console.log(e.id,"value from cart comp");
 	this.props.updateTOCart(e.id);
 	this.forceUpdate()
 	}
 	
 subProduct = (e) => {
-	console.log(e.id,"value from cart comp");
 	this.props.reduceItemFromCart(e);
 	this.forceUpdate()
 	}
 
 removeRec = (e) => {
-console.log(e);
 this.props.removeItemFromCart(e);
 }
 
@@ -100,9 +88,7 @@ const mapStateToProps = state => {
     return {
         cartItems:state.cartItems,
     };
-
 }
-
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -110,14 +96,6 @@ const mapDispatchToProps = dispatch => {
 		updateTOCart: (id) => dispatch({type: actionsTypes.UPDATE_TO_CART,payload:id}),
 		reduceItemFromCart: (id) => dispatch({type: actionsTypes.REDUCE_FROM_CART,payload:id}),
 		removeItemFromCart: (id) => dispatch({type: actionsTypes.REMOVE_FROM_CART,payload:id}),
-        // onDecrementCounter: () => dispatch({type: 'DECREMENT'}),
-        // onAddCounter: () => dispatch({type: 'ADD_5' ,val:5}),
-        // onSubCounter: () => dispatch({type: 'SUB_5' , val :5}),
-        // onResetCounter: () => dispatch({type: 'RESET' , val :5})
     };
 }
-
-
-
-
 export default connect(mapStateToProps,mapDispatchToProps)(Cart);
